@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cek Usia PPDB 2026 | SDN Muara Bakti 03</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-gradient: radial-gradient(circle at top right, #1e1b4b, #0f172a, #020617);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --neon-primary: #00f2fe;
+            --neon-secondary: #4facfe;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            
+            /* Status Colors */
+            --status-success: #10b981;
+            --status-warning: #f59e0b;
+            --status-info: #06b6d4;
+            --status-danger: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Ambient Glow Background */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 400px;
+            background: var(--neon-primary);
+            filter: blur(150px);
+            opacity: 0.15;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            padding: 40px 30px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 
+                        inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .app-logo {
+            height: 80px;
+            width: auto;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
+            transition: transform 0.3s ease;
+        }
+
+        .app-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff, #a5b4fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .header p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .target-badge {
+            display: inline-block;
+            background: rgba(0, 242, 254, 0.05);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            color: var(--neon-primary);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-top: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .input-control {
+            width: 100%;
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px;
+            color: var(--text-main);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: inherit;
+        }
+
+        .input-control::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            opacity: 0.7;
+            cursor: pointer;
+        }
+
+        .input-control:focus {
+            border-color: var(--neon-primary);
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.15),
+                        inset 0 0 0 1px var(--neon-primary);
+        }
+
+        .btn-calc {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--neon-primary) 0%, var(--neon-secondary) 100%);
+            border: none;
+            border-radius: 14px;
+            color: #020617;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 20px -10px var(--neon-primary);
+        }
+
+        .btn-calc:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px -10px var(--neon-primary);
+            filter: brightness(1.1);
+        }
+
+        .btn-calc:active {
+            transform: translateY(0);
+        }
+
+        .result-box {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid var(--glass-border);
+            display: none;
+            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .age-display {
+            text-align: center;
+            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .age-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .age-display span {
+            background: linear-gradient(135deg, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.4rem;
+            font-weight: 800;
+        }
+
+        .status-badge {
+            padding: 14px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 800;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Status Colors & Glow */
+        .status-success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: var(--status-success);
+            box-shadow: inset 0 0 20px rgba(16, 185, 129, 0.05);
+        }
+        .status-warning {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: var(--status-warning);
+            box-shadow: inset 0 0 20px rgba(245, 158, 11, 0.05);
+        }
+        .status-info {
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            color: var(--status-info);
+            box-shadow: inset 0 0 20px rgba(6, 182, 212, 0.05);
+        }
+        .status-danger {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: var(--status-danger);
+            box-shadow: inset 0 0 20px rgba(239, 68, 68, 0.05);
+        }
+
+        .note-box {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #cbd5e1;
+            border-left: 4px solid var(--neon-secondary);
+            font-weight: 500;
+        }
+        
+        .note-box strong {
+            color: #fff;
+        }
+
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+            z-index: 1;
+        }
+
+        footer span {
+            color: var(--neon-primary);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <img src="https://freeimghost.com/images/2026/01/22/Kabupaten-Bekasi.md.png" alt="Logo Kab Bekasi" class="app-logo">
+            
+            <h1>Sistem Validasi Usia</h1>
+            <p>Penerimaan Peserta Didik Baru (PPDB)</p>
+            <div class="target-badge">Cut-off: 1 Juli 2026</div>
+        </div>
+
+        <div class="form-group">
+            <label for="dob">Tanggal Lahir Calon Siswa</label>
+            <input type="date" id="dob" class="input-control">
+        </div>
+
+        <button class="btn-calc" onclick="prosesCekUsia()">Proses Analisis</button>
+
+        <div class="result-box" id="resultBox">
+            <div class="age-display" id="ageDisplay">
+                <span class="age-label">Kalkulasi Usia Akurat</span>
+                <span id="txtUsia">0 Thn, 0 Bln, 0 Hr</span>
+            </div>
+            <div class="status-badge" id="statusBadge">
+                -
+            </div>
+            <div class="note-box" id="noteBox">
+                -
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 <span>Rohiman Khan</span> &bull; SDN Muara Bakti 03
+    </footer>
+
+    <script>
+        function prosesCekUsia() {
+            const dobValue = document.getElementById('dob').value;
+            if (!dobValue) {
+                alert('Silakan tentukan tanggal lahir terlebih dahulu.');
+                return;
+            }
+
+            const birthDate = new Date(dobValue);
+            const targetDate = new Date('2026-07-01');
+
+            if (birthDate > targetDate) {
+                alert('Peringatan: Tanggal lahir melebihi batas acuan (1 Juli 2026).');
+                return;
+            }
+
+            // Hitung Selisih Akurat (Tahun, Bulan, Hari)
+            let years = targetDate.getFullYear() - birthDate.getFullYear();
+            let months = targetDate.getMonth() - birthDate.getMonth();
+            let days = targetDate.getDate() - birthDate.getDate();
+
+            if (days < 0) {
+                months--;
+                // Ambil sisa hari bulan sebelumnya
+                const prevMonth = new Date(targetDate.getFullYear(), targetDate.getMonth(), 0);
+                days += prevMonth.getDate();
+            }
+
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            // Render output usia
+            document.getElementById('txtUsia').innerText = `${years} Tahun, ${months} Bulan, ${days} Hari`;
+
+            const resultBox = document.getElementById('resultBox');
+            const statusBadge = document.getElementById('statusBadge');
+            const noteBox = document.getElementById('noteBox');
+
+            let statusText = "";
+            let statusClass = "";
+            let noteText = "";
+
+            // Logika Aturan Zonasi/PPDB Kelayakan TK & SD (Permendikbud)
+            if (years >= 7) {
+                statusText = "Prioritas Utama SD";
+                statusClass = "status-success";
+                noteText = "<strong>Rekomendasi:</strong> Siswa berusia 7 tahun ke atas wajib diterima sebagai prioritas utama pada jenjang Sekolah Dasar (SD).";
+            } 
+            else if (years == 6) {
+                statusText = "Memenuhi Syarat SD (Minimal)";
+                statusClass = "status-success";
+                noteText = "<strong>Rekomendasi:</strong> Siswa telah memenuhi standar usia minimal (6 tahun). Siap diproses untuk pendaftaran jenjang SD.";
+            } 
+            else if (years == 5 && months >= 6) {
+                statusText = "TK Kelompok B / Pengecualian SD";
+                statusClass = "status-warning";
+                noteText = "<strong>Rekomendasi:</strong> Disarankan masuk <strong>TK Kelompok B</strong>. Masuk SD diizinkan <em>hanya jika</em> memiliki rekomendasi tertulis kesiapan psikologis dari psikolog profesional/dewan guru.";
+            } 
+            else if (years == 5) {
+                statusText = "Memenuhi Syarat TK Kelompok B";
+                statusClass = "status-info";
+                noteText = "<strong>Rekomendasi:</strong> Usia sangat ideal untuk didaftarkan pada Taman Kanak-Kanak (TK) Kelompok B.";
+            } 
+            else if (years == 4) {
+                statusText = "Memenuhi Syarat TK Kelompok A";
+                statusClass = "status-info";
+                noteText = "<strong>Rekomendasi:</strong> Siswa telah memenuhi batas minimum pendaftaran Taman Kanak-Kanak (TK) Kelompok A.";
+            } 
+            else {
+                statusText = "Belum Cukup Umur";
+                statusClass = "status-danger";
+                noteText = "<strong>Rekomendasi:</strong> Usia di bawah 4 tahun. Belum memenuhi kriteria minimum untuk jenjang formal TK A maupun SD per tanggal cut-off.";
+            }
+
+            // Tampilkan ke UI
+            statusBadge.className = `status-badge ${statusClass}`;
+            statusBadge.innerText = statusText;
+            noteBox.innerHTML = noteText;
+            resultBox.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
